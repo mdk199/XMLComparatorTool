@@ -1,0 +1,4506 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Q1:solution_definition xmlns:Q1="http://www.ibm.com/asf"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ibm.com/asf solution_definition.xsd ">
+	<master_data_definition>
+		<table table_cd="CALENDAR">
+			<column column_cd="CDR_DATE" type="date" is_key="true" />
+			<column column_cd="YEAR_NO" type="int" />
+			<column column_cd="MONTH_NO" type="int" />
+			<column column_cd="QUARTER_NO" type="int" />
+			<column column_cd="MONTH_NAME" type="string" size="20" />
+			<column column_cd="QUARTER_NAME" type="string" size="20" />
+			<column column_cd="WEEKDAY_NO" type="int" is_nullable="true" />
+			<column column_cd="WEEKDAY_NAME" type="string" size="10"
+				is_nullable="true" />
+			<column column_cd="YEAR_CAPTION" type="string" size="10" />
+			<column column_cd="PERIOD_NO" type="int" is_nullable="true" />
+			<column column_cd="PERIOD_NAME" type="string" size="25"
+				is_nullable="true" />
+			<column column_cd="WEEK_IN_PERIOD" type="int" is_nullable="true" />
+			<column column_cd="WEEK_IN_PERIOD_CAPTION" type="string" size="25"
+				is_nullable="true" />
+		</table>
+		<table table_cd="EVENT_TIME">
+			<column column_cd="TIME_OF_DAY" type="time" is_key="true" />
+			<column column_cd="HOUR_NO" type="int" />
+			<column column_cd="HOUR_CAPTION" type="string" size="5" />
+			<column column_cd="SHIFT" type="string" size="25" is_nullable="true" />
+			<column column_cd="TIME_OF_DAY_TEXT" type="string" size="50" />
+		</table>
+		<table table_cd="LANGUAGE" is_surrogate_primary_key="true"
+			validator_class="com.ibm.pmq.master.validators.LanguageValidate">
+			<column column_cd="LANGUAGE_CD" type="string" size="50"
+				is_key="true" />
+			<column column_cd="LANGUAGE_NAME" type="string" size="200" />
+			<column column_cd="DEFAULT_IND" type="int" />
+		</table>
+		<table table_cd="TENANT" is_surrogate_primary_key="true"
+			validator_class="com.ibm.pmq.master.validators.TenantValidate">
+			<column column_cd="TENANT_CD" type="string" size="100" is_key="true" />
+			<column column_cd="TENANT_NAME" type="string" size="200" />
+			<column column_cd="DEFAULT_IND" type="int" />
+		</table>
+		<table table_cd="KEY_LOOKUP" is_surrogate_primary_key="true"
+			is_multitenant="true">
+			<column column_cd="KEY_LOOKUP_CD1" type="string" size="100" />
+			<column column_cd="KEY_LOOKUP_CD2" type="string" size="100"
+				is_key="true" />
+			<column column_cd="KEY_LOOKUP_CD3" type="string" size="100"
+				is_key="true" />
+			<column column_cd="KEY_LOOKUP_CD4" type="string" size="100"
+				is_key="true" />
+			<column column_cd="KEY_LOOKUP_CD5" type="string" size="100"
+				is_key="true" />
+			<column column_cd="TABLE_CD" type="string" size="100" is_key="true" />
+		</table>
+		<table table_cd="MASTER_EVENT_CODE" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true"
+			is_missing_member_insert="true">
+			<column column_cd="EVENT_CODE_SET" type="string" size="200"
+				default_value="CUSTOM EVENT CODE SET" />
+			<column column_cd="EVENT_CODE_SET_NAME" type="string" size="200"
+				default_value="CUSTOM EVENT CODE SET NAME" />
+			<column column_cd="EVENT_CODE" type="string" size="200"
+				is_key="true" />
+		</table>
+		<table table_cd="MASTER_GROUP_DIM" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true">
+			<column column_cd="GROUP_TYPE_CD" is_key="true" type="string"
+				size="100" />
+			<column column_cd="GROUP_TYPE_NAME" type="string" size="400" />
+			<column column_cd="GROUP_MEMBER_CD" is_key="true" type="string"
+				size="100" />
+			<column column_cd="GROUP_MEMBER_NAME" type="string" size="400" />
+		</table>
+		<table table_cd="MASTER_LOCATION" is_multilanguage="true"
+			is_multitenant="true" is_row_deactivateable="true"
+			is_surrogate_primary_key="true"
+			validator_class="com.ibm.pmq.master.validators.LocationValidate">
+			<column column_cd="LOCATION_CD" is_key="true" size="100" type="string" />
+			<column column_cd="LOCATION_NAME" is_key="false" size="1024"
+				type="string" />
+			<column column_cd="REGION_CD" is_key="false" size="50" type="string"
+				is_nullable="true" />
+			<column column_cd="REGION_NAME" is_key="false" size="200"
+				type="string" is_nullable="true" />
+			<column column_cd="COUNTRY_CD" is_key="false" size="50" type="string"
+				is_nullable="true" />
+			<column column_cd="COUNTRY_NAME" is_key="false" size="200"
+				type="string" is_nullable="true" />
+			<column column_cd="STATE_PROVINCE_CD" is_key="false" size="50"
+				type="string" is_nullable="true" />
+			<column column_cd="STATE_PROVINCE_NAME" is_key="false" size="200"
+				type="string" is_nullable="true" />
+			<column column_cd="CITY_NAME" is_key="false" size="200" type="string"
+				is_nullable="true" />
+			<column column_cd="LATITUDE" is_key="false" size="10,5" type="decimal"
+				is_nullable="true" />
+			<column column_cd="LONGITUDE" is_key="false" size="10,5" type="decimal"
+				is_nullable="true" />
+		</table>
+		<table table_cd="MASTER_MATERIAL_TYPE" is_multilanguage="true"
+			is_multitenant="true" is_surrogate_primary_key="true">
+			<column column_cd="MATERIAL_TYPE_CD" is_key="true" type="string"
+				size="50" />
+			<column column_cd="MATERIAL_TYPE_NAME" type="string" size="1000" />
+		</table>
+		<table table_cd="MASTER_MEASUREMENT_TYPE"
+			is_surrogate_primary_key="true" is_multilanguage="true"
+			is_multitenant="true">
+			<column column_cd="MEASUREMENT_TYPE_CD" type="string" size="100"
+				is_key="true" />
+			<column column_cd="MEASUREMENT_TYPE_NAME" type="string" size="200" />
+			<column column_cd="UNIT_OF_MEASURE" type="string" size="200"
+				is_nullable="true" />
+			<column column_cd="CARRY_FORWARD_INDICATOR" type="int"
+				default_value="0" />
+			<column column_cd="AGGREGATION_TYPE" type="string" size="200"
+				is_nullable="true" />
+			<column column_cd="EVENT_CODE_INDICATOR" type="int"
+				default_value="0" />
+		</table>
+		<table table_cd="MASTER_PROCESS" is_multilanguage="true"
+			is_multitenant="true" is_surrogate_primary_key="true">
+			<column column_cd="PROCESS_CD" is_key="true" type="string"
+				size="100" default_value="--" />
+			<column column_cd="PROCESS_NAME" type="string" size="1600"
+				default_value="--" />
+			<self_reference reference_cd="PARENT_PROCESS_ID"
+				number_of_levels="5">
+				<column_mapping table_column_cd="PROCESS_CD"
+					reference_column_cd="PARENT_PROCESS_CD" />
+				<duplicate_column_cd>PROCESS_CD</duplicate_column_cd>
+				<duplicate_column_cd>PROCESS_NAME</duplicate_column_cd>
+			</self_reference>
+
+		</table>
+		<table table_cd="MASTER_PRODUCT" is_row_deactivateable="true"
+			is_multilanguage="true" is_multitenant="true"
+			is_surrogate_primary_key="true">
+			<column column_cd="PRODUCT_CD" is_key="true" type="string"
+				size="200" />
+			<column column_cd="PRODUCT_NAME" type="string" size="400"
+				is_nullable="true" />
+			<column column_cd="PRODUCT_TYPE_CD" is_key="true" type="string"
+				size="200" />
+			<column column_cd="PRODUCT_TYPE_NAME" type="string" size="400"
+				is_nullable="true" />
+		</table>
+		<table table_cd="MASTER_PRODUCTION_BATCH" is_multilanguage="true"
+			is_multitenant="true" is_surrogate_primary_key="true">
+			<column column_cd="PRODUCTION_BATCH_CD" is_key="true" type="string"
+				size="50" />
+			<column column_cd="PRODUCTION_BATCH_NAME" type="string" size="200" />
+			<column column_cd="PRODUCED_DATE" type="date" default_value="2010-01-01" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT" />
+		</table>
+		<table table_cd="MASTER_PROFILE_CALCULATION"
+			is_surrogate_primary_key="true" is_multitenant="true">
+			<column column_cd="PROFILE_CALCULATION_NAME" type="string"
+				size="1024" is_key="true" />
+		</table>
+		<table table_cd="MASTER_PROFILE_VARIABLE"
+			is_surrogate_primary_key="true" is_multilanguage="true"
+			is_multitenant="true">
+			<column column_cd="PROFILE_UNITS" type="string" size="200"
+				is_nullable="true" />
+			<column column_cd="COMPARISION_STRING" type="string" size="400"
+				is_nullable="true" />
+			<column column_cd="LOW_VALUE_DATE" type="timestamp"
+				is_nullable="true" />
+			<column column_cd="HIGH_VALUE_DATE" type="timestamp"
+				is_nullable="true" />
+			<column column_cd="LOW_VALUE_NUMBER" type="double"
+				is_nullable="true" />
+			<column column_cd="HIGH_VALUE_NUMBER" type="double"
+				is_nullable="true" />
+			<column column_cd="KPI_INDICATOR" type="int" is_nullable="true"
+				default_value="0" />
+			<column column_cd="PROFILE_INDICATOR" type="int" is_nullable="true"
+				default_value="0" />
+			<column column_cd="DATA_TYPE" type="string" size="200"
+				is_nullable="true" />
+			<column column_cd="AGGREGATION_TYPE" type="string" size="200"
+				is_nullable="true" />
+			<column column_cd="CARRY_FORWARD_INDICATOR" type="int"
+				is_nullable="true" default_value="0" />
+			<column column_cd="PROCESS_INDICATOR" type="int" is_nullable="true"
+				default_value="0" />
+			<column column_cd="PROFILE_VARIABLE_NAME" type="string" size="100" />
+			<column column_cd="VARIANCE_MULTIPLIER" type="int"
+				is_nullable="true" />
+			<column column_cd="PROFILE_VARIABLE_CD" type="string" size="50"
+				is_key="true" />
+			<reference reference_cd="PROFILE_CALCULATION_ID"
+				table_reference="MASTER_PROFILE_CALCULATION" />
+			<reference reference_cd="MEASUREMENT_TYPE_ID"
+				table_reference="MASTER_MEASUREMENT_TYPE" />
+			<reference reference_cd="RESOURCE_TYPE_ID" table_reference="MASTER_RESOURCE_TYPE" />
+			<reference reference_cd="MATERIAL_TYPE_ID" table_reference="MASTER_MATERIAL_TYPE" />
+		</table>
+		<table table_cd="MASTER_RESOURCE" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true" is_row_deactivateable="true"
+			validator_class="com.ibm.pmq.master.validators.ResourceValidate">
+			<column column_cd="RESOURCE_CD1" type="string" size="100"
+				is_key="true" default_value="--" />
+			<column column_cd="RESOURCE_CD2" type="string" size="100"
+				is_key="true" default_value="--" />
+			<column column_cd="RESOURCE_SUB_TYPE" type="string" size="50"
+				is_nullable="false" default_value="Unspecified" />
+			<column column_cd="RESOURCE_NAME" type="string" size="104"
+				default_value="--" />
+			<column column_cd="STANDARD_PRODUCTION_RATE" type="double"
+				is_nullable="true" />
+			<column column_cd="PRODUCTION_RATE_UOM" type="string" size="80"
+				is_nullable="true" />
+			<column column_cd="PREVENTIVE_MAINTENANCE_INTERVAL" type="double"
+				is_nullable="true" />
+			<column column_cd="MFG_DATE" type="date" />
+			<reference reference_cd="RESOURCE_TYPE_ID" table_reference="MASTER_RESOURCE_TYPE" />
+			<reference reference_cd="GROUP_DIM_ID_1" table_reference="MASTER_GROUP_DIM">
+				<column_mapping table_column_cd="GROUP_TYPE_CD"
+					reference_column_cd="GROUP_TYPE_CD_1" />
+				<column_mapping table_column_cd="GROUP_MEMBER_CD"
+					reference_column_cd="GROUP_MEMBER_CD_1" />
+			</reference>
+			<reference reference_cd="GROUP_DIM_ID_2" table_reference="MASTER_GROUP_DIM">
+				<column_mapping table_column_cd="GROUP_TYPE_CD"
+					reference_column_cd="GROUP_TYPE_CD_2" />
+				<column_mapping table_column_cd="GROUP_MEMBER_CD"
+					reference_column_cd="GROUP_MEMBER_CD_2" />
+			</reference>
+			<reference reference_cd="GROUP_DIM_ID_3" table_reference="MASTER_GROUP_DIM">
+				<column_mapping table_column_cd="GROUP_TYPE_CD"
+					reference_column_cd="GROUP_TYPE_CD_3" />
+				<column_mapping table_column_cd="GROUP_MEMBER_CD"
+					reference_column_cd="GROUP_MEMBER_CD_3" />
+			</reference>
+			<reference reference_cd="GROUP_DIM_ID_4" table_reference="MASTER_GROUP_DIM">
+				<column_mapping table_column_cd="GROUP_TYPE_CD"
+					reference_column_cd="GROUP_TYPE_CD_4" />
+				<column_mapping table_column_cd="GROUP_MEMBER_CD"
+					reference_column_cd="GROUP_MEMBER_CD_4" />
+			</reference>
+			<reference reference_cd="GROUP_DIM_ID_5" table_reference="MASTER_GROUP_DIM">
+				<column_mapping table_column_cd="GROUP_TYPE_CD"
+					reference_column_cd="GROUP_TYPE_CD_5" />
+				<column_mapping table_column_cd="GROUP_MEMBER_CD"
+					reference_column_cd="GROUP_MEMBER_CD_5" />
+			</reference>
+			<reference reference_cd="LOCATION_ID" table_reference="MASTER_LOCATION" />
+			<self_reference reference_cd="PARENT_RESOURCE_ID"
+				number_of_levels="10">
+				<column_mapping table_column_cd="RESOURCE_CD1"
+					reference_column_cd="PARENT_RESOURCE_CD1" />
+				<column_mapping table_column_cd="RESOURCE_CD2"
+					reference_column_cd="PARENT_RESOURCE_CD2" />
+				<duplicate_column_cd>RESOURCE_CD1</duplicate_column_cd>
+				<duplicate_column_cd>RESOURCE_CD2</duplicate_column_cd>
+				<duplicate_column_cd>RESOURCE_NAME</duplicate_column_cd>
+			</self_reference>
+		</table>
+
+		<table table_cd="MASTER_RESOURCE_TYPE" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true">
+			<column column_cd="RESOURCE_TYPE_NAME" type="string" size="200" />
+			<column column_cd="RESOURCE_TYPE_CD" is_key="true" type="string"
+				size="100" />
+		</table>
+		<table table_cd="MASTER_VALUE_TYPE" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true">
+			<column column_cd="VALUE_TYPE_CD" type="string" size="100"
+				is_key="true" />
+			<column column_cd="VALUE_TYPE_NAME" type="string" size="200" />
+		</table>
+		<table table_cd="MASTER_BATCH_BATCH" is_surrogate_primary_key="false"
+			is_multilanguage="false" is_multitenant="false">
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true">
+				<column_mapping table_column_cd="PRODUCTION_BATCH_CD"
+					reference_column_cd="PRODUCTION_BATCH_CD" />
+			</reference>
+			<reference reference_cd="RELATED_PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true">
+				<column_mapping table_column_cd="PRODUCTION_BATCH_CD"
+					reference_column_cd="RELATED_PRODUCTION_BATCH_CD" />
+			</reference>
+		</table>
+		<table table_cd="MASTER_EVENT_TYPE" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true">
+			<column column_cd="EVENT_TYPE_CD" type="string" size="100"
+				is_key="true" />
+			<column column_cd="EVENT_TYPE_NAME" type="string" size="200"
+				is_key="false" />
+		</table>
+		<table table_cd="MASTER_SUPPLIER" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true" is_row_deactivateable="true"
+			is_missing_member_insert="true">
+			<column column_cd="SUPPLIER_CD" type="string" size="100"
+				is_key="true" />
+			<column column_cd="SUPPLIER_NAME" type="string" size="400"
+				is_key="false" default_value="-Unspecified-" />
+		</table>
+		<table table_cd="MASTER_MATERIAL" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true" is_row_deactivateable="true">
+			<column column_cd="MATERIAL_CD" type="string" size="200"
+				is_key="true" />
+			<column column_cd="MATERIAL_NAME" type="string" size="400"
+				is_key="false" />
+			<reference reference_cd="MATERIAL_TYPE_ID" table_reference="MASTER_MATERIAL_TYPE" />
+			<reference reference_cd="SUPPLIER_ID" table_reference="MASTER_SUPPLIER" />
+		</table>
+		<table table_cd="MASTER_PRODUCT_PARAMETERS" is_multilanguage="true"
+			is_multitenant="true" validator_class="com.ibm.pmq.master.validators.ParameterValidate">
+			<column column_cd="PARAMETER_NAME" type="string" size="50"
+				is_key="true" />
+			<column column_cd="PARAMETER_VALUE" type="double" is_key="false" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT"
+				is_key="true" />
+		</table>
+		<table table_cd="MASTER_RESOURCE_PRODUCTION_BATCH"
+			is_multilanguage="true">
+			<column column_cd="QTY" type="int" is_key="false" />
+			<reference reference_cd="RESOURCE_ID" table_reference="MASTER_RESOURCE"
+				is_key="true" />
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true" />
+		</table>
+		<table table_cd="MASTER_SOURCE_SYSTEM" is_surrogate_primary_key="true"
+			is_multilanguage="true" is_multitenant="true" is_row_deactivateable="true">
+			<column column_cd="SOURCE_SYSTEM_CD" type="string" size="100"
+				is_key="true" />
+			<column column_cd="SOURCE_SYSTEM_NAME" type="string" size="200"
+				is_key="false" />
+		</table>
+		<table table_cd="Service" is_multitenant="true"
+			is_multilanguage="true">
+			<column column_cd="SVC_MNTHS" type="int" is_key="true" />
+			<column column_cd="WPARTS" type="int" />
+			<column column_cd="WREPL" type="int" />
+			<column column_cd="PRODUCED_DATE" type="date" is_key="true" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT"
+				is_key="true" />
+		</table>
+		<table table_cd="MASTER_OBSERVATION_LOOKUP" is_multilanguage="true">
+			<column column_cd="OBSERVATION_CD" type="string" size="100"
+				is_key="true" />
+			<column column_cd="OBSERVATION_TEXT" type="string" size="800" />
+		</table>
+	</master_data_definition>
+	<event_definition>
+		<table table_cd="EVENT">
+			<column column_cd="EVENT_START_TIME" type="timestamp" />
+			<column column_cd="EVENT_END_TIME" type="timestamp"
+				is_nullable="true" />
+			<column column_cd="EVENT_PLANNED_END_TIME" type="timestamp"
+				is_nullable="true" />
+			<column column_cd="INCOMING_EVENT_CD" type="string" size="200"
+				is_nullable="true" />
+			<reference reference_cd="ASSET_ID" table_reference="MASTER_RESOURCE">
+				<column_mapping reference_column_cd="SERIAL_NO"
+					table_column_cd="RESOURCE_CD1" default_value="-NA-" />
+				<column_mapping reference_column_cd="MODEL"
+					table_column_cd="RESOURCE_CD2" default_value="-NA-" />
+			</reference>
+			<reference reference_cd="AGENT_ID" table_reference="MASTER_RESOURCE">
+				<column_mapping reference_column_cd="OPERATOR_CD"
+					table_column_cd="RESOURCE_CD1" default_value="-NA-" />
+				<column_mapping reference_column_cd="OPERATOR_NA"
+					table_column_cd="RESOURCE_CD2" default_value="-NA-" />
+			</reference>
+			<reference reference_cd="EVENT_TYPE_ID" table_reference="MASTER_EVENT_TYPE" />
+			<reference reference_cd="SOURCE_SYSTEM_ID" table_reference="MASTER_SOURCE_SYSTEM">
+				<column_mapping table_column_cd="SOURCE_SYSTEM_CD"
+					default_value="-NA-" />
+			</reference>
+			<reference reference_cd="PROCESS_ID" table_reference="MASTER_PROCESS">
+				<column_mapping table_column_cd="PROCESS_CD"
+					default_value="-NA-" />
+			</reference>
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH">
+				<column_mapping table_column_cd="PRODUCTION_BATCH_CD"
+					default_value="-NA-" />
+			</reference>
+			<reference reference_cd="LOCATION_ID" table_reference="MASTER_LOCATION">
+				<column_mapping table_column_cd="LOCATION_CD"
+					default_value="-NA-" />
+			</reference>
+			<observation table_cd="EVENT_OBSERVATION">
+				<column column_cd="OBSERVATION_TIMESTAMP" is_key="true" type="timestamp" />
+				<column column_cd="OBSERVATION_TEXT" type="string" size="800"
+					is_nullable="true" />
+				<column column_cd="MEASUREMENT" type="double" is_nullable="true" />
+				<reference reference_cd="MEASUREMENT_TYPE_ID" is_key="true"
+					table_reference="MASTER_MEASUREMENT_TYPE" />
+				<reference reference_cd="VALUE_TYPE_ID" is_key="true"
+					table_reference="MASTER_VALUE_TYPE">
+					<column_mapping table_column_cd="VALUE_TYPE_CD"
+						default_value="ACTUAL" />
+				</reference>
+				<reference reference_cd="EVENT_CODE_ID" is_key="true"
+					table_reference="MASTER_EVENT_CODE">
+					<column_mapping table_column_cd="EVENT_CODE"
+						default_value="-NA-" />
+				</reference>
+				<reference reference_cd="MATERIAL_ID" table_reference="MASTER_MATERIAL">
+					<column_mapping table_column_cd="MATERIAL_CD"
+						default_value="-NA-" />
+				</reference>
+				<event_interval_column column_cd="OBSERVATION_DATE"
+					type="date" />
+				<event_interval_column column_cd="OBSERVATION_TIME"
+					type="time" />
+			</observation>
+		</table>
+	</event_definition>
+	<profile_definition>
+		<table table_cd="MATERIAL_PROFILE">
+			<column column_cd="PROFILE_DATE" type="timestamp" is_key="false" />
+			<column column_cd="PRIOR_PROFILE_DATE" type="timestamp"
+				is_nullable="true" />
+			<column column_cd="PERIOD_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LAST_VALUE" type="double" is_key="false"
+				is_nullable="true" />
+			<reference reference_cd="PROFILE_VARIABLE_ID"
+				table_reference="MASTER_PROFILE_VARIABLE" is_key="true" />
+			<reference reference_cd="MATERIAL_ID" table_reference="MASTER_MATERIAL"
+				is_key="true" />
+			<reference reference_cd="PROCESS_ID" table_reference="MASTER_PROCESS"
+				is_key="true" />
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true" />
+			<reference reference_cd="VALUE_TYPE_ID" table_reference="MASTER_VALUE_TYPE"
+				is_key="true" />
+			<reference reference_cd="SUPPLIER_ID" table_reference="MASTER_SUPPLIER"
+				is_key="true" />
+			<reference reference_cd="EVENT_CODE_ID" table_reference="MASTER_EVENT_CODE"
+				is_key="true" />
+		</table>
+		<table table_cd="PROCESS_KPI">
+			<column column_cd="ACTUAL_VALUE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="PLAN_VALUE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="FORECAST_VALUE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="MEASURE_COUNT" type="int" is_nullable="true"
+				is_key="false" />
+			<column column_cd="CURRENT_INDICATOR" type="int" is_nullable="true"
+				is_key="false" />
+			<reference reference_cd="PROCESS_ID" table_reference="MASTER_PROCESS"
+				is_key="true" />
+			<reference reference_cd="PROFILE_VARIABLE_ID"
+				table_reference="MASTER_PROFILE_VARIABLE" is_key="true" />
+			<reference reference_cd="MATERIAL_ID" table_reference="MASTER_MATERIAL"
+				is_key="true" />
+			<reference reference_cd="EVENT_CODE_ID" table_reference="MASTER_EVENT_CODE"
+				is_key="true" />
+			<reference reference_cd="LOCATION_ID" table_reference="MASTER_LOCATION"
+				is_key="true" />
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true" />
+			<interval_column column_cd="KPI_DATE" type="date"
+				is_nullable="false" is_key="true" />
+		</table>
+		<table table_cd="PROCESS_PROFILE">
+			<column column_cd="PROFILE_DATE" type="timestamp" is_key="false" />
+			<column column_cd="PRIOR_PROFILE_DATE" type="timestamp"
+				is_key="false" is_nullable="true" />
+			<column column_cd="PERIOD_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LAST_VALUE" type="double" is_key="false"
+				is_nullable="true" />
+			<reference reference_cd="PROFILE_VARIABLE_ID"
+				table_reference="MASTER_PROFILE_VARIABLE" is_key="true" />
+			<reference reference_cd="PROCESS_ID" table_reference="MASTER_PROCESS"
+				is_key="true" />
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true" />
+			<reference reference_cd="EVENT_CODE_ID" table_reference="MASTER_EVENT_CODE"
+				is_key="true" />
+			<reference reference_cd="VALUE_TYPE_ID" table_reference="MASTER_VALUE_TYPE"
+				is_key="true" />
+			<reference reference_cd="LOCATION_ID" table_reference="MASTER_LOCATION"
+				is_key="true" />
+		</table>
+		<table table_cd="PRODUCT_KPI">
+			<column column_cd="QTY" type="int" is_nullable="false" is_key="false" />
+			<column column_cd="NO_TESTED" type="int" is_nullable="false"
+				is_key="false" />
+			<column column_cd="NO_FAILED" type="int" is_nullable="false"
+				is_key="false" />
+			<column column_cd="CUSUM_WT" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="CUSUM" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="FAILURE_RATE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="BATCH_FLAG" type="string" size="1"
+				is_nullable="false" is_key="false" default_value="N" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT"
+				is_key="true" />
+			<interval_column column_cd="KPI_DATE" type="date"
+				is_nullable="false" is_key="true" />
+		</table>
+		<table table_cd="PRODUCT_PROFILE">
+			<column column_cd="H" type="double" is_nullable="false"
+				is_key="false" default_value="0" />
+			<column column_cd="FORGIVENESS" type="double" is_nullable="false"
+				is_key="false" default_value="0" />
+			<column column_cd="RCUN" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="RUNDATE" type="date" is_nullable="true"
+				is_key="false" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT"
+				is_key="true" />
+		</table>
+		<table table_cd="RESOURCE_KPI">
+			<column column_cd="ACTUAL_VALUE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="PLAN_VALUE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="FORECAST_VALUE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="MEASURE_COUNT" type="int" is_nullable="true"
+				is_key="false" />
+			<column column_cd="CURRENT_INDICATOR" type="int" is_nullable="true"
+				is_key="false" />
+			<reference reference_cd="PROFILE_VARIABLE_ID"
+				table_reference="MASTER_PROFILE_VARIABLE" is_key="true" />
+			<reference reference_cd="RESOURCE_ID" table_reference="MASTER_RESOURCE"
+				is_key="true" />
+			<reference reference_cd="EVENT_CODE_ID" table_reference="MASTER_EVENT_CODE"
+				is_key="true" />
+			<reference reference_cd="LOCATION_ID" table_reference="MASTER_LOCATION"
+				is_key="true" />
+			<reference reference_cd="PROCESS_ID" table_reference="MASTER_PROCESS"
+				is_key="true" />
+			<reference reference_cd="PRODUCTION_BATCH_ID"
+				table_reference="MASTER_PRODUCTION_BATCH" is_key="true" />
+			<interval_column column_cd="KPI_DATE" type="date"
+				is_nullable="false" is_key="true" />
+		</table>
+		<table table_cd="RESOURCE_PROFILE">
+			<column column_cd="PROFILE_DATE" type="timestamp" is_key="false" />
+			<column column_cd="PRIOR_PROFILE_DATE" type="timestamp"
+				is_key="false" is_nullable="true" />
+			<column column_cd="PERIOD_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_AVERAGE" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MIN" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MAX" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_TOTAL" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_STD_DEV" type="double" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PERIOD_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="PRIOR_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LTD_MSR_COUNT" type="int" is_key="false"
+				is_nullable="true" />
+			<column column_cd="LAST_VALUE" type="double" is_key="false"
+				is_nullable="true" />
+			<reference reference_cd="PROFILE_VARIABLE_ID"
+				table_reference="MASTER_PROFILE_VARIABLE" is_key="true" />
+			<reference reference_cd="RESOURCE_ID" table_reference="MASTER_RESOURCE"
+				is_key="true" />
+			<reference reference_cd="VALUE_TYPE_ID" table_reference="MASTER_VALUE_TYPE"
+				is_key="true" />
+			<reference reference_cd="EVENT_CODE_ID" table_reference="MASTER_EVENT_CODE"
+				is_key="true" />
+			<reference reference_cd="LOCATION_ID" table_reference="MASTER_LOCATION"
+				is_key="true" />
+		</table>
+		<table table_cd="LIFETIME_KPI">
+			<column column_cd="PRODUCED_DATE" type="date" is_key="true" />
+			<column column_cd="QTY" type="int" is_key="false" />
+			<column column_cd="WMONTHS" type="int" is_key="false" />
+			<column column_cd="WREPLS" type="int" is_key="false" />
+			<column column_cd="CUSUM" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="WINDICES" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="WEIGHTS" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="WEIBULSCALE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="CUSUMRR" type="double" is_nullable="true"
+				is_key="false" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT"
+				is_key="true" />
+		</table>
+		<table table_cd="LIFETIME_PROFILE">
+			<column column_cd="THRESHOLD_H" type="double" is_key="false" />
+			<column column_cd="THRESHOLD_W" type="double" is_key="false" />
+			<column column_cd="FORGIVENESS" type="double" is_key="false" />
+			<column column_cd="K" type="double" is_nullable="true" is_key="false" />
+			<column column_cd="V0" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="PRE" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="RCUN" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="SEVERITY" type="double" is_nullable="true"
+				is_key="false" />
+			<column column_cd="RUNDATE" type="date" is_nullable="true"
+				is_key="false" />
+			<reference reference_cd="PRODUCT_ID" table_reference="MASTER_PRODUCT"
+				is_key="true" />
+		</table>
+	</profile_definition>
+	<calculation_definition>
+		<calculation calculation_cd="ASSIGN"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.Assign"
+			is_increment="false">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>FIELD_TO_ASSIGN</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="MEASUREMENT_ABOVE_LIMIT"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.MeasurementAboveLimit"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<!-- Configuration parameters -->
+			<input>
+				<field_name>THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_COUNT</field_name>
+				<type>int</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="MEASUREMENT_BELOW_LIMIT"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.MeasurementBelowLimit"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<!-- Configuration parameters -->
+			<input>
+				<field_name>THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_COUNT</field_name>
+				<type>int</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="MINIMUM"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.Minimum"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_MIN</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_MIN</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="MAXIMUM"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.Maximum"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_MAX</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_MAX</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="TOTAL"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.Total"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_TOTAL</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="AVERAGE"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.Average"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>UPDATED_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="STD_DEV"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.StandardDeviation"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>UPDATED_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="INCREMENT_COUNT"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.IncrementCount"
+			is_increment="false">
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>UPDATED_COUNT</field_name>
+				<type>int</type>
+			</output>
+		</calculation>
+
+		<calculation calculation_cd="DELTA_SUM"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.MeasurementDeltaSum"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PREVIOUS_MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_DELTA_SUM</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_DELTA_SUM</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+
+		<calculation calculation_cd="MEASUREMENT_IN_RANGE_COUNT"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.MeasurementInRangeCount"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>HIGH_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LOW_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_COUNT</field_name>
+				<type>int</type>
+			</output>
+		</calculation>
+
+		<calculation calculation_cd="LAST_DATE_OF_MEASUREMENT_IN_RANGE"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.LastDateOfMeasurementInRange"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>date</type>
+			</input>
+			<input>
+				<field_name>CURRENT_DATE</field_name>
+				<type>date</type>
+			</input>
+			<input>
+				<field_name>HIGH_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LOW_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_DATE</field_name>
+				<type>date</type>
+			</output>
+		</calculation>
+
+		<calculation calculation_cd="LAST_DATE_OF_EVENT"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.LastDateOfEvent"
+			is_increment="true">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>date</type>
+			</input>
+			<input>
+				<field_name>CURRENT_DATE</field_name>
+				<type>date</type>
+			</input>
+			<output>
+				<field_name>UPDATED_DATE</field_name>
+				<type>date</type>
+			</output>
+		</calculation>
+
+		<calculation calculation_cd="MEASUREMENT_TEXT_CONTAINS_COUNT"
+			calculation_class="com.ibm.analytics.foundation.calculation.calculations.MeasurementTextContainsCount"
+			is_increment="false">
+			<input>
+				<field_name>MEASURE_TEXT</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>TARGET_TEXT</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>UPDATED_COUNT</field_name>
+				<type>int</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_DELTA_CALCULATION"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileDeltaCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_COUNT"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileCountCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_INTERVAL_CALCULATION"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileIntervalCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MIN</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MAX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MIN</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MAX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_MIN</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_MAX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MIN</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MAX</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_TOTAL</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MIN</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MAX</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_TOTAL</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_MIN</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_MAX</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_TOTAL</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_LAST_DATE"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileLastDateCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_LAST_DATE_OF_MEASUREMENT_IN_RANGE"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileLastDateOfMeasurementInRangeCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>HIGH_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LOW_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="KPI_LAST_DATE_OF_MEASUREMENT_IN_RANGE"
+			calculation_class="com.ibm.analytics.pmq.calc.KPILastDateOfMeasurementInRange">
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>HIGH_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LOW_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>CURRENT_COUNT</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>UPDATED_VALUE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>UPDATED_COUNT</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_LIFE_SPAN_ANALYSIS"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileLifeSpanAnalysisCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_LIFE_SPAN_ANALYSIS_FAILURE"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileLifeSpanAnalysisFailureCalculation">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_MEASUREMENT_ABOVE_LIMIT"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileMeasurementAboveLimit">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_MEASUREMENT_BELOW_LIMIT"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileMeasurementBelowLimit">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_MEASUREMENT_TEXT_CONTAINS_COUNT"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileMeasurementTextContainsCount">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>OBSERVATION_TEXT</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>TARGET_TEXT</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>MEASURE_TEXT</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_MEASUREMENT_IN_RANGE_COUNT"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileMeasurementInRangeCount">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>HIGH_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LOW_THRESHOLD</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+		<calculation calculation_cd="PROFILE_MEASUREMENT_OF_TYPE"
+			calculation_class="com.ibm.analytics.pmq.calc.ProfileMeasurementOfType">
+			<input>
+				<field_name>MEASURE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>MEASURE_VALUE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>PERIOD_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MIN</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MAX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MIN</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MAX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRIOR_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_AVERAGE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_MIN</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_MAX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_TOTAL</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LTD_STD_DEV</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</input>
+			<output>
+				<field_name>PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<type>date</type>
+			</output>
+			<output>
+				<field_name>PERIOD_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MIN</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MAX</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_TOTAL</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MIN</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MAX</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_TOTAL</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PRIOR_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_AVERAGE</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_MIN</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_MAX</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_TOTAL</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>LTD_STD_DEV</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<type>int</type>
+			</output>
+			<output>
+				<field_name>LAST_VALUE</field_name>
+				<type>double</type>
+			</output>
+		</calculation>
+	</calculation_definition>
+	<service_definition>
+		<service service_cd="HS" service_name="HS">
+			<input>
+				<field_name>RESOURCE_ID</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>KPI_DATE</field_name>
+				<type>date</type>
+			</input>
+			<input>
+				<field_name>SPSSScoreRequestId</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRequestInputTableName</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRcScoreRequestId</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRcRequestInputTableName</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSMEASUREMENT_TYPE_CD</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>MaximoWO</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>RPM</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>RPM Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>RPM Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>TEMP</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>TEMP Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>TEMP Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>INSP</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>INSP Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>INSP Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LUBE</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LUBE Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>LUBE Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>OPHR</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>OPHR Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>OPHR Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS1</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS1 Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS1 Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS2</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS2 Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS2 Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS3</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS3 Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>PRS3 Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>RELH</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>RELH Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>RELH Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>REPT</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>REPT Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>REPT Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>REPX</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>REPX Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>REPX Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>R_B1</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>R_B1 Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>R_B1 Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>R_F1</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>R_F1 Above Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>R_F1 Below Limit_Sum</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>HS</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>CURRENT_TIMESTAMP</field_name>
+				<type>timestamp</type>
+			</output>
+			<output>
+				<field_name>HSRC</field_name>
+				<type>string</type>
+			</output>
+
+
+		</service>
+		<service service_cd="IHS" service_name="IHS">
+			<input>
+				<field_name>RESOURCE_ID</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>SPSSScoreRequestId</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRequestInputTableName</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRcScoreRequestId</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRcRequestInputTableName</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSMEASUREMENT_TYPE_CD</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>MHS</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>FDM</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>SDM</field_name>
+				<type>double</type>
+			</input>
+			<input>
+				<field_name>HS</field_name>
+				<type>double</type>
+			</input>
+			<output>
+				<field_name>IHS</field_name>
+				<type>double</type>
+			</output>
+			<output>
+				<field_name>CURRENT_TIMESTAMP</field_name>
+				<type>timestamp</type>
+			</output>
+			<output>
+				<field_name>IHSRC</field_name>
+				<type>string</type>
+			</output>
+		</service>
+		<service service_cd="MAXIMO_WO_UPDATE" service_name="MAXIMO_WO_UPDATE">
+			<input>
+				<field_name>MODEL</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SERIAL_NO</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>MHS_OBSERVATION</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>FDM_OBSERVATION</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SDM_OBSERVATION</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>ASSET_ID</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>TENANT_ID</field_name>
+				<type>int</type>
+			</input>
+		</service>
+		<service service_cd="MAXIMO_WO_CREATE" service_name="MAXIMO_WO_CREATE">
+			<input>
+				<field_name>SITEID</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>ASSETNUM</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>MaximoWO</field_name>
+				<type>timestamp</type>
+			</input>
+			<input>
+				<field_name>WOPeriodMsrCount</field_name>
+				<type>int</type>
+			</input>
+			<input>
+				<field_name>HSRC</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>SPSSRC</field_name>
+				<type>string</type>
+			</input>
+			<input>
+				<field_name>MaximoRC</field_name>
+				<type>string</type>
+			</input>
+		</service>
+	</service_definition>
+	<shared_profile_row_selector table_cd="RESOURCE_PROFILE"
+		shared_selector_cd="RESOURCE_PROFILE">
+		<key_field_value>
+			<profile_field_name>RESOURCE_CD1</profile_field_name>
+			<value_ref>
+				<event_field_name>SERIAL_NO</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>RESOURCE_CD2</profile_field_name>
+			<value_ref>
+				<event_field_name>MODEL</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>VALUE_TYPE_CD</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>VALUE_TYPE_CD</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>EVENT_CODE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>EVENT_CODE</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>LOCATION_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>LOCATION_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>TENANT_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+	</shared_profile_row_selector>
+	<shared_profile_row_selector table_cd="PROCESS_PROFILE"
+		shared_selector_cd="PROCESS_PROFILE">
+		<key_field_value is_value_required="true">
+			<profile_field_name>PROCESS_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PROCESS_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PRODUCTION_BATCH_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>EVENT_CODE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>EVENT_CODE</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>VALUE_TYPE_CD</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>VALUE_TYPE_CD</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>LOCATION_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>LOCATION_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>TENANT_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+	</shared_profile_row_selector>
+	<shared_profile_row_selector table_cd="MATERIAL_PROFILE"
+		shared_selector_cd="MATERIAL_PROFILE">
+		<key_field_value is_value_required="true">
+			<profile_field_name>MATERIAL_CD</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>MATERIAL_CD</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PROCESS_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PROCESS_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PRODUCTION_BATCH_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>VALUE_TYPE_CD</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>VALUE_TYPE_CD</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>SUPPLIER_CD</profile_field_name>
+			<value_ref>
+				<context_variable_name>SUPPLIER_CD</context_variable_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>TENANT_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>EVENT_CODE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>EVENT_CODE</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+	</shared_profile_row_selector>
+	<shared_profile_row_selector table_cd="RESOURCE_KPI"
+		shared_selector_cd="RESOURCE_KPI">
+		<key_field_value>
+			<profile_field_name>KPI_DATE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>RESOURCE_CD1</profile_field_name>
+			<value_ref>
+				<event_field_name>SERIAL_NO</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>RESOURCE_CD2</profile_field_name>
+			<value_ref>
+				<event_field_name>MODEL</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>EVENT_CODE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>EVENT_CODE</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>LOCATION_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>LOCATION_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PROCESS_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PROCESS_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PRODUCTION_BATCH_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>TENANT_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+	</shared_profile_row_selector>
+	<shared_profile_row_selector table_cd="PROCESS_KPI"
+		shared_selector_cd="PROCESS_KPI">
+		<key_field_value>
+			<profile_field_name>KPI_DATE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value is_value_required="true">
+			<profile_field_name>PROCESS_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PROCESS_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PRODUCTION_BATCH_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>MATERIAL_CD</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>MATERIAL_CD</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>EVENT_CODE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>EVENT_CODE</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>LOCATION_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>LOCATION_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>TENANT_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+	</shared_profile_row_selector>
+	<shared_profile_row_selector table_cd="PRODUCT_KPI"
+		shared_selector_cd="PRODUCT_KPI">
+		<key_field_value>
+			<profile_field_name>KPI_DATE</profile_field_name>
+			<value_ref>
+				<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PRODUCT_CD</profile_field_name>
+			<value_ref>
+				<context_variable_name>PRODUCT_CD</context_variable_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>PRODUCT_TYPE_CD</profile_field_name>
+			<value_ref>
+				<context_variable_name>PRODUCT_TYPE_CD</context_variable_name>
+			</value_ref>
+		</key_field_value>
+		<key_field_value>
+			<profile_field_name>TENANT_CD</profile_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</key_field_value>
+
+	</shared_profile_row_selector>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_DELTA_CALCULATION">
+		<calculation_invocation calculation_cd="DELTA_SUM">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PREVIOUS_MEASURE_VALUE</field_name>
+				<value_ref>
+					<profile_field>
+						<alias>PROFILE</alias>
+						<field_name>LAST_VALUE</field_name>
+					</profile_field>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_DELTA_SUM</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_DELTA_SUM</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_COUNT">
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_LAST_DATE">
+		<calculation_invocation calculation_cd="ASSIGN">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value>1.0</value>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>FIELD_TO_ASSIGN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>FIELD_TO_ASSIGN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_LAST_DATE_OF_MEASUREMENT_IN_RANGE">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="KPI_LAST_DATE_OF_MEASUREMENT_IN_RANGE">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_VALUE</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_LIFE_SPAN_ANALYSIS">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="TOTAL">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_LIFE_SPAN_ANALYSIS_FAILURE">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="TOTAL">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_MEASUREMENT_ABOVE_LIMIT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="MEASUREMENT_ABOVE_LIMIT">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_MEASUREMENT_TEXT_CONTAINS_COUNT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="MEASUREMENT_TEXT_CONTAINS_COUNT">
+			<input_field_value>
+				<field_name>MEASURE_TEXT</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TEXT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_MEASUREMENT_BELOW_LIMIT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="MEASUREMENT_BELOW_LIMIT">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_MEASUREMENT_OF_TYPE">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="TOTAL">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>CURRENT_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>ACTUAL_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>MEASURE_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>MEASURE_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_DELTA_CALCULATION">
+		<calculation_invocation calculation_cd="PROFILE_DELTA_CALCULATION">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_COUNT">
+		<calculation_invocation calculation_cd="PROFILE_COUNT">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_INTERVAL_CALCULATION">
+		<calculation_invocation calculation_cd="PROFILE_INTERVAL_CALCULATION">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_AVERAGE</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_AVERAGE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MIN</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MIN</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MAX</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MAX</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_TOTAL</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_STD_DEV</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_STD_DEV</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_AVERAGE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_AVERAGE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MIN</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MIN</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MAX</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MAX</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_TOTAL</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_STD_DEV</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_STD_DEV</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_AVERAGE</field_name>
+				<value_ref>
+					<profile_field_name>LTD_AVERAGE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MIN</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MIN</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MAX</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MAX</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>LTD_TOTAL</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_STD_DEV</field_name>
+				<value_ref>
+					<profile_field_name>LTD_STD_DEV</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_AVERAGE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_AVERAGE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MIN</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MIN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MAX</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MAX</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_TOTAL</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_STD_DEV</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_STD_DEV</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_AVERAGE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_AVERAGE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MIN</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MIN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MAX</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MAX</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_TOTAL</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_STD_DEV</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_STD_DEV</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_AVERAGE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_AVERAGE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MIN</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MIN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MAX</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MAX</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_TOTAL</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_STD_DEV</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_STD_DEV</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_LAST_DATE_OF_MEASUREMENT_IN_RANGE">
+		<calculation_invocation calculation_cd="PROFILE_LAST_DATE_OF_MEASUREMENT_IN_RANGE">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_LIFE_SPAN_ANALYSIS">
+		<calculation_invocation calculation_cd="PROFILE_LIFE_SPAN_ANALYSIS">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_LIFE_SPAN_ANALYSIS_FAILURE">
+		<calculation_invocation calculation_cd="PROFILE_COUNT">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_MEASUREMENT_ABOVE_LIMIT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="PROFILE_MEASUREMENT_ABOVE_LIMIT">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_MEASUREMENT_BELOW_LIMIT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="PROFILE_MEASUREMENT_BELOW_LIMIT">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_MEASUREMENT_TEXT_CONTAINS_COUNT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="PROFILE_MEASUREMENT_TEXT_CONTAINS_COUNT">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_TEXT</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TEXT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_MEASUREMENT_IN_RANGE_COUNT">
+		<calculation_invocation invocation_cd="VALUE"
+			calculation_cd="PROFILE_MEASUREMENT_IN_RANGE_COUNT">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PROFILE_MEASUREMENT_OF_TYPE">
+		<calculation_invocation calculation_cd="PROFILE_MEASUREMENT_OF_TYPE">
+			<input_field_value>
+				<field_name>MEASURE_DATE</field_name>
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TIMESTAMP</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_PROFILE_DATE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_AVERAGE</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_AVERAGE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MIN</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MIN</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MAX</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MAX</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_TOTAL</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_STD_DEV</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_STD_DEV</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_AVERAGE</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_AVERAGE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MIN</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MIN</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MAX</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MAX</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_TOTAL</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_STD_DEV</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_STD_DEV</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_AVERAGE</field_name>
+				<value_ref>
+					<profile_field_name>LTD_AVERAGE</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MIN</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MIN</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MAX</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MAX</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_TOTAL</field_name>
+				<value_ref>
+					<profile_field_name>LTD_TOTAL</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_STD_DEV</field_name>
+				<value_ref>
+					<profile_field_name>LTD_STD_DEV</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PERIOD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>PRIOR_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>LTD_MSR_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_PROFILE_DATE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_PROFILE_DATE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_AVERAGE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_AVERAGE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MIN</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MIN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MAX</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MAX</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_TOTAL</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_STD_DEV</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_STD_DEV</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_AVERAGE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_AVERAGE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MIN</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MIN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MAX</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MAX</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_TOTAL</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_STD_DEV</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_STD_DEV</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_AVERAGE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_AVERAGE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MIN</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MIN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MAX</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MAX</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_TOTAL</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_TOTAL</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_STD_DEV</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_STD_DEV</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PERIOD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PERIOD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>PRIOR_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>PRIOR_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LTD_MSR_COUNT</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LTD_MSR_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>LAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>LAST_VALUE</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+
+
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PRODUCT_KPI_QTY_COUNT">
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>QTY</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>QTY</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>BATCH_FLAG</profile_field_name>
+				<value>N</value>
+			</update_field_value>
+		</calculation_invocation>
+
+
+
+
+	</shared_calculation_invocation_group>
+
+	<shared_calculation_invocation_group
+		shared_group_cd="PRODUCT_KPI_INSPECT_COUNT">
+		<calculation_invocation calculation_cd="INCREMENT_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>NO_TESTED</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>NO_TESTED</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>BATCH_FLAG</profile_field_name>
+				<value>N</value>
+			</update_field_value>
+		</calculation_invocation>
+
+
+
+
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="PRODUCT_KPI_FAIL_COUNT">
+		<calculation_invocation calculation_cd="MEASUREMENT_TEXT_CONTAINS_COUNT">
+			<input_field_value>
+				<field_name>CURRENT_COUNT</field_name>
+				<value_ref>
+					<profile_field_name>NO_FAILED</profile_field_name>
+				</value_ref>
+			</input_field_value>
+			<input_field_value>
+				<field_name>MEASURE_TEXT</field_name>
+
+				<value_ref>
+					<selected_observation_field_name>OBSERVATION_TEXT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+
+			<input_field_value>
+				<field_name>TARGET_TEXT</field_name>
+				<value>Y</value>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>NO_FAILED</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>UPDATED_COUNT</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+			<update_field_value>
+				<profile_field_name>BATCH_FLAG</profile_field_name>
+				<value>N</value>
+			</update_field_value>
+
+
+		</calculation_invocation>
+
+
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_ASSIGN_PLAN">
+		<calculation_invocation calculation_cd="ASSIGN">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>PLAN_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>FIELD_TO_ASSIGN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_calculation_invocation_group
+		shared_group_cd="KPI_ASSIGN_FORECAST">
+		<calculation_invocation calculation_cd="ASSIGN">
+			<input_field_value>
+				<field_name>MEASURE_VALUE</field_name>
+				<value_ref>
+					<selected_observation_field_name>MEASUREMENT</selected_observation_field_name>
+				</value_ref>
+			</input_field_value>
+			<update_field_value>
+				<profile_field_name>FORECAST_VALUE</profile_field_name>
+				<value_ref>
+					<calculation_output_field_name>FIELD_TO_ASSIGN</calculation_output_field_name>
+				</value_ref>
+			</update_field_value>
+		</calculation_invocation>
+	</shared_calculation_invocation_group>
+	<shared_service_update shared_update_cd="EVENT_TO_EVENT1">
+		<update_field_value>
+			<event_field_name>SERIAL_NO</event_field_name>
+			<value_ref>
+				<event_field_name>SERIAL_NO</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>MODEL</event_field_name>
+			<value_ref>
+				<event_field_name>MODEL</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>OPERATOR_CD</event_field_name>
+			<value_ref>
+				<event_field_name>OPERATOR_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>OPERATOR_NA</event_field_name>
+			<value_ref>
+				<event_field_name>OPERATOR_NA</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>SOURCE_SYSTEM_CD</event_field_name>
+			<value_ref>
+				<event_field_name>SOURCE_SYSTEM_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>PROCESS_CD</event_field_name>
+			<value_ref>
+				<event_field_name>PROCESS_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			<value_ref>
+				<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>LOCATION_CD</event_field_name>
+			<value_ref>
+				<event_field_name>LOCATION_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>TENANT_CD</event_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>EVENT_TYPE_CD</event_field_name>
+			<value_ref>
+				<event_field_name>EVENT_TYPE_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>IHS</value>
+				</key_field_value>
+				<field_name>EVENT_CODE</field_name>
+			</observation_field>
+			<value>-NA-</value>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>IHS</value>
+				</key_field_value>
+				<field_name>MATERIAL_CD</field_name>
+			</observation_field>
+			<value>-NA-</value>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>IHS</value>
+				</key_field_value>
+				<field_name>VALUE_TYPE_CD</field_name>
+			</observation_field>
+			<value>ACTUAL</value>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>IHS</value>
+				</key_field_value>
+				<field_name>TENANT_CD</field_name>
+			</observation_field>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+	</shared_service_update>
+
+
+
+	<shared_service_update shared_update_cd="EVENT_TO_EVENT">
+		<update_field_value>
+			<event_field_name>SERIAL_NO</event_field_name>
+			<value_ref>
+				<event_field_name>SERIAL_NO</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>MODEL</event_field_name>
+			<value_ref>
+				<event_field_name>MODEL</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>OPERATOR_CD</event_field_name>
+			<value_ref>
+				<event_field_name>OPERATOR_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>OPERATOR_NA</event_field_name>
+			<value_ref>
+				<event_field_name>OPERATOR_NA</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>SOURCE_SYSTEM_CD</event_field_name>
+			<value_ref>
+				<event_field_name>SOURCE_SYSTEM_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>PROCESS_CD</event_field_name>
+			<value_ref>
+				<event_field_name>PROCESS_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			<value_ref>
+				<event_field_name>PRODUCTION_BATCH_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>LOCATION_CD</event_field_name>
+			<value_ref>
+				<event_field_name>LOCATION_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>TENANT_CD</event_field_name>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>EVENT_TYPE_CD</event_field_name>
+			<value_ref>
+				<event_field_name>EVENT_TYPE_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>HS</value>
+				</key_field_value>
+				<field_name>EVENT_CODE</field_name>
+			</observation_field>
+			<value>-NA-</value>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>HS</value>
+				</key_field_value>
+				<field_name>MATERIAL_CD</field_name>
+			</observation_field>
+			<value>-NA-</value>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>HS</value>
+				</key_field_value>
+				<field_name>VALUE_TYPE_CD</field_name>
+			</observation_field>
+			<value>ACTUAL</value>
+		</update_field_value>
+		<update_field_value>
+			<observation_field>
+				<table_cd>EVENT_OBSERVATION</table_cd>
+				<key_field_value>
+					<field_name>MEASUREMENT_TYPE_CD</field_name>
+					<value>HS</value>
+				</key_field_value>
+				<field_name>TENANT_CD</field_name>
+			</observation_field>
+			<value_ref>
+				<event_field_name>TENANT_CD</event_field_name>
+			</value_ref>
+		</update_field_value>
+	</shared_service_update>
+
+	<shared_service_update shared_update_cd="EVENT_TO_MAXIMO">
+		<update_field_value>
+			<event_field_name>SERIAL_NO</event_field_name>
+			<value_ref>
+				<event_field_name>SERIAL_NO</event_field_name>
+			</value_ref>
+		</update_field_value>
+		<update_field_value>
+			<event_field_name>MODEL</event_field_name>
+			<value_ref>
+				<event_field_name>MODEL</event_field_name>
+			</value_ref>
+		</update_field_value>
+
+	</shared_service_update>
+
+</Q1:solution_definition>
